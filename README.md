@@ -11,9 +11,9 @@ RU:
 3. Общается только текстом (можно добавить генерацию фото, но это будет весить минимум 20 гб, требовать от 20-30 гб оперативки и ждать надо будет от получаса).
 
 Для установки:
-1. Установите qwen-termux: 'curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash'
-2. Запустите ollama: 'ollama serve > /dev/null 2>&1 &'
-3. После запустите ИИ: 'python ~/ai/ai.py'
+1. Установите qwen-termux: `curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash`
+2. Запустите ollama: `ollama serve > /dev/null 2>&1 &`
+3. После запустите ИИ: `python ~/ai/ai.py`
 ПРИМЕЧАНИЕ:
 Данный проект может не работать, так как он находится в ранней стадии разработки.
 
@@ -31,9 +31,9 @@ Cons of such AI:
 3. Communicates only via text (you can add photo generation, but it will weigh at least 20 GB, require 20-30 GB of RAM, and you will have to wait for half an hour or more).
 
 To install:
- 1. Install qwen-termux: 'curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash'
- 2. Start ollama: 'ollama serve > /dev/null 2>&1 &'
- 3. Then launch the AI: 'python ~/ai/ai.py'
+ 1. Install qwen-termux: `curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash`
+ 2. Start ollama: `ollama serve > /dev/null 2>&1 &`
+ 3. Then launch the AI: `python ~/ai/ai.py`
 NOTE:
 This project may not work as it is in an early stage of development.
 Project status: In development.
