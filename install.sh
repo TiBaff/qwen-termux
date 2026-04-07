@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# === Local AI Installer for Termux ===
+# === qwen-termux by TiBaff ===
 
 CYAN="\033[96m"
 GREEN="\033[92m"
@@ -14,7 +14,7 @@ AI_PY_URL="https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/
 
 echo -e "${BOLD}${CYAN}"
 echo "╔══════════════════════════════════╗"
-echo "║     Local AI — Termux Installer     ║"
+echo "║     qwen-termux by TiBaff     ║"
 echo "╚══════════════════════════════════╝"
 echo -e "${R}"
 
@@ -35,7 +35,7 @@ echo -e "${YELLOW}[4/6] Installing Ollama...${R}"
 if command -v ollama &>/dev/null; then
     echo -e "${GREEN}Ollama already installed, skipping.${R}"
 else
-    curl -fsSL https://ollama.com/install.sh | sh
+    pkg install -y ollama
 fi
 
 # --- Step 5: Download ai.py ---
