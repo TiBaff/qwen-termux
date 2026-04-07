@@ -9,7 +9,7 @@ RU:
 • Работает достаточно медленно (с 12 гб оперативной памяти в обычном режиме ~12 секунд на первое сообщение, ~4 минуты в думающем режиме), но все зависит от телефона и количества на нем оперативной памяти.
 • Весит очень много для своих способностей. Для полноценной работы ИИ вам нужно минимум 10 гб свободного места. Занимаемое место может увеличиваться за счет записи диалога, но память можно очистить (команда /clear)
 • Общается только текстом (можно добавить генерацию фото, но это будет весить минимум 20 гб, требовать от 20-30 гб оперативки и ждать надо будет от получаса)
-***
+
 Для установки:
 1. Установите qwen-termux: curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash
 2. Запустите ollama: ollama serve > /dev/null 2>&1 &
@@ -29,7 +29,7 @@ Cons of such AI:
 • Works quite slowly (with 12 GB of RAM in normal mode ~12 seconds for the first message, ~4 minutes in thinking mode), but it all depends on the phone and the amount of RAM on it.
 • Weighs a lot for its capabilities. For the AI to function fully, you need at least 10 GB of free space. The occupied space may increase due to dialogue recording, but the memory can be cleared (command /clear)
 • Communicates only via text (you can add photo generation, but it will weigh at least 20 GB, require 20-30 GB of RAM, and you will have to wait for half an hour or more)
-***
+
 To install:
  1. Install qwen-termux: curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash
  2. Start ollama: ollama serve > /dev/null 2>&1 &
