@@ -10,7 +10,7 @@ BOLD="\033[1m"
 R="\033[0m"
 
 AI_DIR="$HOME/ai"
-AI_PY_URL="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/ai.py"
+AI_PY_URL="https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/ai.py"
 
 echo -e "${BOLD}${CYAN}"
 echo "╔══════════════════════════════════╗"
