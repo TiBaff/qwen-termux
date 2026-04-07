@@ -12,7 +12,8 @@ RU:
 ***
 Для установки:
 1. Установите qwen-termux: curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash
-2. После установки запустите ИИ: ~/start-ai.sh
+2. Запустите ollama: ollama serve
+3. После запустите ИИ: ~/ai/ai.py
 ПРИМЕЧАНИЕ:
 Данный проект может не работать, так как он находится в ранней стадии разработки.
 
