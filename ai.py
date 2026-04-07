@@ -3,7 +3,6 @@ import subprocess
 import json
 import os
 import sys
-import datetime
 
 # --- Config ---
 MEMORY_FILE = os.path.expanduser("~/.ai_memory.txt")
@@ -51,38 +50,14 @@ def build_system(memory):
         s += f"\n\n[Memory from previous sessions]:\n{memory}"
     return s
 
-def ask_fast(history, user_input, memory):
+def stream_response(history, user_input, memory, model, is_thinking=False):
     messages = [{"role": "system", "content": build_system(memory)}]
     for h in history:
         messages.append(h)
     messages.append({"role": "user", "content": user_input})
 
     payload = json.dumps({
-        "model": FAST_MODEL,
-        "messages": messages,
-        "stream": False
-    })
-
-    result = subprocess.run(
-        ["curl", "-s", "-X", "POST", "http://localhost:11434/api/chat",
-         "-H", "Content-Type: application/json", "-d", payload],
-        capture_output=True, text=True
-    )
-
-    try:
-        data = json.loads(result.stdout)
-        return data["message"]["content"]
-    except Exception:
-        return f"[Error parsing response: {result.stdout[:200]}]"
-
-def ask_think_stream(history, user_input, memory):
-    messages = [{"role": "system", "content": build_system(memory)}]
-    for h in history:
-        messages.append(h)
-    messages.append({"role": "user", "content": user_input})
-
-    payload = json.dumps({
-        "model": THINK_MODEL,
+        "model": model,
         "messages": messages,
         "stream": True
     })
@@ -95,7 +70,9 @@ def ask_think_stream(history, user_input, memory):
 
     full_response = ""
     in_think = False
-    think_buf = ""
+
+    if is_thinking:
+        print(f"{GRAY}Thinking...{R}")
 
     for line in proc.stdout:
         line = line.strip()
@@ -107,35 +84,36 @@ def ask_think_stream(history, user_input, memory):
             if not chunk:
                 continue
 
-            i = 0
-            while i < len(chunk):
-                if not in_think:
-                    idx = chunk.find("<think>", i)
-                    if idx == -1:
-                        token = chunk[i:]
-                        print(f"{GREEN}{token}{R}", end="", flush=True)
-                        full_response += token
-                        break
-                    else:
-                        token = chunk[i:idx]
-                        if token:
+            if is_thinking:
+                i = 0
+                while i < len(chunk):
+                    if not in_think:
+                        idx = chunk.find("<think>", i)
+                        if idx == -1:
+                            token = chunk[i:]
                             print(f"{GREEN}{token}{R}", end="", flush=True)
                             full_response += token
-                        in_think = True
-                        print(f"\n{GRAY}[Thinking", end="", flush=True)
-                        i = idx + 7
-                else:
-                    idx = chunk.find("</think>", i)
-                    if idx == -1:
-                        think_buf += chunk[i:]
-                        print(".", end="", flush=True)
-                        break
+                            break
+                        else:
+                            token = chunk[i:idx]
+                            if token:
+                                print(f"{GREEN}{token}{R}", end="", flush=True)
+                                full_response += token
+                            in_think = True
+                            i = idx + 7
                     else:
-                        think_buf += chunk[i:idx]
-                        print(f"]{R}\n", flush=True)
-                        in_think = False
-                        think_buf = ""
-                        i = idx + 8
+                        idx = chunk.find("</think>", i)
+                        if idx == -1:
+                            print(f"{GRAY}{chunk[i:]}{R}", end="", flush=True)
+                            break
+                        else:
+                            print(f"{GRAY}{chunk[i:idx]}{R}", end="", flush=True)
+                            print(f"\n{BOLD}AI:{R} ", end="", flush=True)
+                            in_think = False
+                            i = idx + 8
+            else:
+                print(f"{GREEN}{chunk}{R}", end="", flush=True)
+                full_response += chunk
 
         except json.JSONDecodeError:
             continue
@@ -159,11 +137,13 @@ def update_memory_prompt(current_memory):
 def chat_session(model_type):
     clear()
     model_label = "Fast (qwen2.5:3b)" if model_type == "fast" else "Thinking (qwen3:4b)"
-    print(f"{BOLD}{CYAN}=== AI Chat — {model_label} ==={R}")
+    print(f"{BOLD}{CYAN}=== qwen-termux by TiBaff — {model_label} ==={R}")
     print(f"{GRAY}Commands: /exit  /clear  /memory{R}\n")
 
     history = load_history()
     memory = load_memory()
+    is_thinking = model_type == "think"
+    model = THINK_MODEL if is_thinking else FAST_MODEL
 
     while True:
         try:
@@ -188,12 +168,7 @@ def chat_session(model_type):
             continue
 
         print(f"\n{BOLD}AI:{R} ", end="", flush=True)
-
-        if model_type == "fast":
-            response = ask_fast(history, user_input, memory)
-            print(f"{GREEN}{response}{R}")
-        else:
-            response = ask_think_stream(history, user_input, memory)
+        response = stream_response(history, user_input, memory, model, is_thinking)
 
         history.append({"role": "user", "content": user_input})
         history.append({"role": "assistant", "content": response})
@@ -203,9 +178,9 @@ def chat_session(model_type):
 def main_menu():
     while True:
         clear()
-        print(f"{BOLD}{CYAN}╔══════════════════════════╗")
-        print(f"║     Local AI Assistant      ║")
-        print(f"╚══════════════════════════╝{R}\n")
+        print(f"{BOLD}{CYAN}╔══════════════════════════════╗")
+        print(f"║    qwen-termux by TiBaff     ║")
+        print(f"╚══════════════════════════════╝{R}\n")
         print(f"  {BOLD}1.{R} Fast chat       {GRAY}(qwen2.5:3b){R}")
         print(f"  {BOLD}2.{R} Thinking chat   {GRAY}(qwen3:4b){R}")
         print(f"  {BOLD}3.{R} Edit memory")
