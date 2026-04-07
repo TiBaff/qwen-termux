@@ -20,7 +20,7 @@ echo -e "${R}"
 
 # --- Step 1: Update packages ---
 echo -e "${YELLOW}[1/6] Updating Termux packages...${R}"
-pkg update -y && pkg upgrade -y
+pkg update -y pkg update -y && pkg upgrade -ypkg update -y && pkg upgrade -y DEBIAN_FRONTEND=noninteractive pkg upgrade -y -o Dpkg::Options::="--force-confold"
 
 # --- Step 2: Install dependencies ---
 echo -e "${YELLOW}[2/6] Installing required packages...${R}"
