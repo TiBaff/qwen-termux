@@ -18,7 +18,7 @@ RU:
 Данный проект может не работать, так как он находится в ранней стадии разработки.
 
 Статус проекта: В разработке.
-
+***
 ENG:
 Hi! I recently dug into the topic of AI to get access to it completely without the internet. And I found it! This repository contains everything you need to install Qwen (in normal and thinking mode) directly on your phone.
 Pros of such AI:
@@ -29,6 +29,7 @@ Cons of such AI:
 • Works quite slowly (with 12 GB of RAM in normal mode ~12 seconds for the first message, ~4 minutes in thinking mode), but it all depends on the phone and the amount of RAM on it.
 • Weighs a lot for its capabilities. For the AI to function fully, you need at least 10 GB of free space. The occupied space may increase due to dialogue recording, but the memory can be cleared (command /clear)
 • Communicates only via text (you can add photo generation, but it will weigh at least 20 GB, require 20-30 GB of RAM, and you will have to wait for half an hour or more)
+***
 To install:
  1. Install qwen-termux: curl -fsSL https://raw.githubusercontent.com/TiBaff/qwen-termux/refs/heads/main/install.sh | bash
  2. Start ollama: ollama serve > /dev/null 2>&1 &
